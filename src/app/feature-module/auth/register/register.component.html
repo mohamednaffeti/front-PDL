@@ -1,0 +1,175 @@
+<div class="account-page">
+  <!-- Main Wrapper -->
+  <div class="main-wrapper">
+    <div class="account-content">
+      <div class="container">
+        <!-- Account Logo -->
+        <div class="account-logo">
+          <a routerLink="/layout/dashboard/admin"
+          ><img src="assets/img/logo2.png" alt="SmartUp HR"
+          /></a>
+        </div>
+        <!-- /Account Logo -->
+        <div class="account-box">
+          <div class="account-wrapper">
+            <h3 class="account-title">Register</h3>
+            <p *ngIf="isSuccessful" class="account-subtitle">An email has been sent to the address you entered. click
+              the link in that email to proceed</p>
+            <!-- Account Form -->
+            <form *ngIf="!isSuccessful" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+              <p class="account-subtitle">Access to our dashboard</p>
+              <div class="form-group">
+                <label for="email">Email<span class="mandatory">*</span></label>
+                <input class="form-control" type="text" name="email" [(ngModel)]="form.email"
+                       required email #email="ngModel"/>
+                <div *ngIf="f.submitted && email.invalid" class="text-danger">
+                  <div *ngIf="email.errors?.['required']">Email is required</div>
+                  <div *ngIf="email.errors?.['email']">Email must be a valid email address</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="username">Username<span class="mandatory">*</span></label>
+                <input class="form-control" type="text" name="username" [(ngModel)]="form.username"
+                       required minlength="3"
+                       maxlength="20" #username="ngModel"/>
+                <div *ngIf="f.submitted && username.invalid" class="text-danger">
+                  <div *ngIf="username.errors?.['required']">Username is required</div>
+                  <div *ngIf="username.errors?.['minlength']">Username must be at least 3 characters</div>
+                  <div *ngIf="username.errors?.['maxlength']">Username must be at most 20 characters</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="firstName">Firstname<span class="mandatory">*</span></label>
+                <input class="form-control" type="text" name="firstName" [(ngModel)]="form.firstName"
+                       required minlength="3"
+                       maxlength="20" #firstName="ngModel"/>
+                <div *ngIf="f.submitted && firstName.invalid" class="text-danger">
+                  <div *ngIf="firstName.errors?.['required']">Firstname is required</div>
+                  <div *ngIf="firstName.errors?.['minlength']">Firstname must be at least 3 characters</div>
+                  <div *ngIf="firstName.errors?.['maxlength']">Firstname must be at most 20 characters</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="lastName">Lastname<span class="mandatory">*</span></label>
+                <input class="form-control" type="text" name="lastName" [(ngModel)]="form.lastName"
+                       required minlength="3"
+                       maxlength="20" #lastName="ngModel"/>
+                <div *ngIf="f.submitted && lastName.invalid" class="text-danger">
+                  <div *ngIf="lastName.errors?.['required']">Lastname is required</div>
+                  <div *ngIf="lastName.errors?.['minlength']">Lastname must be at least 3 characters</div>
+                  <div *ngIf="lastName.errors?.['maxlength']">Lastname must be at most 20 characters</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="birthDay">BirthDay<span class="mandatory">*</span></label>
+                <div >
+                  <input class="form-control datetimepicker" type="date" bsDatepicker 
+                         name="dateOfJoin" [(ngModel)]="form.birthDay"
+                         required #birthDay="ngModel">
+                  <div
+                    *ngIf="f.submitted && birthDay.invalid">
+                    <small
+                      *ngIf="birthDay.errors?.['required']"
+                      class="text-danger"> *BirthDay is required</small>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="dateOfJoin">Joining Date <span class="mandatory">*</span></label>
+                <div >
+                  <input class="form-control datetimepicker" type="date" bsDatepicker 
+                         name="dateOfJoin" [(ngModel)]="form.dateOfJoin"
+                         required #dateOfJoin="ngModel">
+                  <div
+                    *ngIf="f.submitted && dateOfJoin.invalid">
+                    <small
+                      *ngIf="dateOfJoin.errors?.['required']"
+                      class="text-danger"> *Joining date is required</small>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-form-label" for="phone">Phone</label>
+                <input class="form-control" type="text"
+                       name="phone" [(ngModel)]="form.phone"
+                       required #phone="ngModel">
+                <div
+                  *ngIf="f.submitted && phone.invalid">
+                  <small
+                    *ngIf="phone.errors?.['required']"
+                    class="text-danger"> *Phone is required</small>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="password">Password<span class="mandatory">*</span></label>
+                <input class="form-control" type="password" name="password"
+                       [(ngModel)]="form.password" required minlength="6"
+                       #password="ngModel"/>
+                <div *ngIf="f.submitted && password.invalid" class="text-danger">
+                  <div *ngIf="password.errors?.['required']">Password is required</div>
+                  <div *ngIf="password.errors?.['minlength']">Password must be at least 6 characters</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="department">Department <span class="text-danger">*</span></label>
+                <select class="form-select form-control" name="department" [(ngModel)]="form.department"
+                        required #department="ngModel">
+                  <option [ngValue]="null" [disabled]="true">Select department</option>
+                  <option *ngFor="let item of DepartmentList" [value]="item">
+                    {{item}}
+                  </option>
+                </select>
+                <div
+                  *ngIf="f.submitted && department.invalid">
+                  <small
+                    *ngIf="department.errors?.['required']"
+                    class="text-danger"> *Department is required</small>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="designation">Designation <span class="text-danger">*</span></label>
+                <select class="form-select form-control" name="designation" [(ngModel)]="form.designation"
+                        required #designation="ngModel">
+                  <option [ngValue]="null" [disabled]="true">Select designation</option>
+                  <option *ngFor="let item of DesignationList" [value]="item">
+                    {{item}}
+                  </option>
+                </select>
+                <div
+                  *ngIf="f.submitted && designation.invalid">
+                  <small
+                    *ngIf="designation.errors?.['required']"
+                    class="text-danger"> *Designation is required</small>
+                </div>
+              </div>
+              <div *ngIf="managerList && managerList.length > 0" class="form-group">
+                <label for="reportsTo">Reports To <span class="text-danger">*</span></label>
+                <select class="form-select form-control" name="reportsTo" [(ngModel)]="form.reportsTo"
+                        required #reportsTo="ngModel">
+                  <option [ngValue]="null" [disabled]="true">Select a supervisor</option>
+                  <option *ngFor="let item of managerList">
+                    {{item.firstName}} {{item.lastName}}
+                  </option>
+                </select>
+                <div
+                  *ngIf="f.submitted && designation.invalid">
+                  <small
+                    *ngIf="designation.errors?.['required']"
+                    class="text-danger"> *Designation is required</small>
+                </div>
+              </div>
+              <div class="form-group text-center">
+                <button class="btn btn-primary account-btn" type="submit" [disabled]="form.invalid">Register</button>
+              </div>
+              <div class="account-footer">
+                <p>Already have an account? <a routerLink="/login">Login</a></p>
+              </div>
+            </form>
+            <!-- /Account Form -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /Main Wrapper -->
+</div>

@@ -1,0 +1,71 @@
+
+
+
+
+<div class="content container-fluid">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Salary request</h3>
+
+             
+            </div>
+        
+        </div>
+    </div>
+    <!-- /Page Header -->
+
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="table-responsive">
+                <table matSort class="table table-striped custom-table datatable">
+                    <thead>
+                        <tr>
+                            <th mat-sort-header="name">Name</th>
+                            <th mat-sort-header="value">Value</th>
+                            <th mat-sort-header="date">Date</th>
+                            <th mat-sort-header="description">Description</th>
+             
+                            <th mat-sort-header="action">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of salarie">
+
+                            <td>
+                                {{item.user.firstName}} {{item.user.lastName}}
+                            </td>
+                            <td>
+                                {{item.value}} TND
+                            </td>
+                            <td>
+                                {{item.date  | date:'dd/MM/yyyy '}}
+                            </td>
+                            <td >
+                                <span style="min-width: 150px;">{{item.description}}</span>
+                                
+                            </td>
+                         
+                            <td>
+                                <a style="color: rgb(4, 113, 4);" (click)="Accept( item,'ACCEPT')"><i class="fa-solid  fa-check m-r-5"></i>Accept
+                                </a>
+                                <a style="color: rgb(239, 7, 7); margin-left: 15px;" (click)="Accept(item,'REFUSE')" ><i class="fa-solid fa-close m-r-5"></i>No
+                                    </a>
+                            </td>
+                        </tr>
+                        <tr *ngIf="salarie && salarie.length == 0">
+                            <td colspan="10">
+                                <h5 style="text-align: center;">No data found</h5>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,108 @@
+<div class="content container-fluid">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Absences</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a [routerLink]="'/dashboard/admin'">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Absences</li>
+                </ul>
+            </div>
+            <div class="col-auto float-end ms-auto">
+                <a class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_absence"><i
+                        class="fa-solid fa-plus"></i>
+                    Add Absence</a>
+                <div class="view-icons">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row filter-row">
+
+        <div class="col-sm-6 col-md-2">
+            <div class="form-group form-focus ">
+                <mat-form-field appearance="fill">
+                    <mat-label>Select employee</mat-label>
+                    <mat-select id="manager">
+                        <mat-option *ngFor="let user of lstEmployee" [value]="user.id">
+                            {{ user.firstName }} {{ user.lastName }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div> <br>
+   
+        
+    </div>
+    <div  class="col-sm-6 col-md-4">
+        <div class="alert alert-info">
+            <strong>{{me?.daysConge}}</strong>  days disponible!
+          </div>
+    </div>
+
+    <div>
+        <full-calendar style="max-width: 100%;" [options]="calendarOptions"></full-calendar>
+    </div>
+</div>
+
+<div id="add_absence" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Absences</h5>
+                <button type="button" class="close" #closeModel data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="absneceForm" (ngSubmit)="addAbsence()">
+                    <div class="row">
+
+                     
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <mat-label>Cause</mat-label> <br>
+                                <mat-form-field appearance="fill">
+                                    
+                                    <mat-select formControlName="leaveType" >
+                                        <mat-option [value]="i" *ngFor="let i of typeAbsence">
+                                            {{i}}
+                                        </mat-option>
+                                     
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Date from</label> <br>
+                               
+                                  
+                                    <input class="form-control" type="date" formControlName="dateFrom" required>
+                            
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Date to</label> <br>
+                               
+                                  
+                                    <input class="form-control" type="date" formControlName="dateTo" required>
+                            
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

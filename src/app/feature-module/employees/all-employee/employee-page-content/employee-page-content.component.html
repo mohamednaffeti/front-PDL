@@ -1,0 +1,500 @@
+<!-- Page Content -->
+<div class="content container-fluid">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="row align-items-center">
+      <div class="col">
+        <h3 class="page-title">Employee</h3>
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item"><a [routerLink]="'/dashboard/admin'">Dashboard</a></li>
+          <li class="breadcrumb-item active">Employee</li>
+        </ul>
+      </div>
+      <div class="col-auto float-end ms-auto">
+        <a  class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_employee"><i class="fa-solid fa-plus"></i>
+          Add Employee</a>
+      </div>
+    </div>
+  </div>
+  <!-- /Page Header -->
+
+  <!-- Search Filter -->
+  <div class="row filter-row">
+    <div class="col-sm-6 col-md-3">
+      <div class="form-group form-focus inputs">
+        <mat-form-field class="example-full-width">
+          <mat-label>Employee ID</mat-label>
+          <input type="text" (keyup)="filterId($event)" matInput>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class=" col-sm-6 col-md-3">
+      <div class="form-group form-focus inputs">
+        <mat-form-field class="example-full-width">
+          <mat-label>Employee Name</mat-label>
+          <input type="text" (keyup)="filterName($event)" matInput>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <div class="form-group form-focus select-focus select">
+        <mat-form-field appearance="fill">
+          <mat-label>Select an option</mat-label>
+          <mat-select [(ngModel)]="filterDev" (selectionChange)="filterSelectDev($event.value)">
+            <mat-option value="*" >ALL</mat-option>
+            <mat-option [value]="i" *ngFor="let i of DepartmentList">{{i}}</mat-option>
+   
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <a class="btn btn-success w-100" (click)="reset()"> Reset </a>
+    </div>
+  </div>
+  <!-- Search Filter -->
+
+  <div class="row staff-grid-row">
+    <div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3" *ngFor="let emp of lstEmployee;let i = index">
+      <!-- Add Employee Modal -->
+
+      <div id="add_employee" class="modal custom-modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Add Employee</h5>
+              <button type="button" class="close" #addClose data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form name="addForm" (ngSubmit)="f.form.valid && addUser()" #f="ngForm">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <label class="col-form-label" for="firstName">First Name <span class="text-danger">*</span></label>
+                    <input class="form-control" type="text" id="firstName" name="firstName"
+                      [(ngModel)]="addForm.firstName" required minlength="3" maxlength="20" #firstName="ngModel">
+                    <div *ngIf="f.submitted && firstName.invalid">
+                      <small *ngIf="firstName.errors?.['required']" class="text-danger"> *Firstname is
+                        required</small>
+                      <small *ngIf="firstName.errors?.['minlength']" class="text-danger"> *Firstname must be at least
+                        3
+                        characters</small>
+                      <small *ngIf="firstName.errors?.['maxlength']" class="text-danger"> *Firstname must be at most
+                        20
+                        characters</small>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <label class="col-form-label" for="lastName">Last Name</label>
+                    <input class="form-control" type="text" name="lastName" [(ngModel)]="addForm.lastName" required
+                      minlength="3" maxlength="20" #lastName="ngModel">
+                    <div *ngIf="f.submitted && lastName.invalid">
+                      <small *ngIf="lastName.errors?.['required']" class="text-danger"> *Lastname is required</small>
+                      <small *ngIf="lastName.errors?.['minlength']" class="text-danger"> *Lastname must be at least 3
+                        characters</small>
+                      <small *ngIf="lastName.errors?.['maxlength']" class="text-danger"> *Lastname must be at most 20
+                        characters</small>
+                    </div>
+
+                  </div>
+                  <div class="col-sm-6">
+                    <label class="col-form-label" for="username">Username <span class="text-danger">*</span></label>
+                    <input class="form-control" type="text" class="form-control" name="username"
+                      [(ngModel)]="addForm.username" required minlength="3" maxlength="20" #username="ngModel">
+                    <div *ngIf="f.submitted && username.invalid">
+                      <small *ngIf="username.errors?.['required']" class="text-danger"> *Username is required</small>
+                      <small *ngIf="username.errors?.['minlength']" class="text-danger"> *Username must be at least 3
+                        characters</small>
+                      <small *ngIf="username.errors?.['maxlength']" class="text-danger"> *Username must be at most 20
+                        characters</small>
+                    </div>
+
+                  </div>
+                  <div class="col-sm-6">
+                    <label class="col-form-label" for="email">Email <span class="text-danger">*</span></label>
+                    <input class="form-control" type="email" name="email" [(ngModel)]="addForm.email" required
+                      minlength="3" maxlength="50" #email="ngModel">
+                    <div *ngIf="f.submitted && email.invalid">
+                      <small *ngIf="email.errors?.['required']" class="text-danger"> *Email is required</small>
+                      <small *ngIf="email.errors?.['minlength']" class="text-danger"> *Email must be at least 3
+                        characters</small>
+                      <small *ngIf="email.errors?.['maxlength']" class="text-danger"> *Email must be at most 50
+                        characters</small>
+                    </div>
+
+                  </div>
+                  <div class="col-sm-6">
+                    <label class="col-form-label" for="password">Password</label>
+                    <input class="form-control" type="password" name="password" [(ngModel)]="addForm.password" required
+                      minlength="6" maxlength="20" #password="ngModel">
+                    <div *ngIf="f.submitted && password.invalid">
+                      <small *ngIf="password.errors?.['required']" class="text-danger"> *Password is required</small>
+                      <small *ngIf="password.errors?.['minlength']" class="text-danger"> *Password must be at least 6
+                        characters</small>
+                      <small *ngIf="password.errors?.['maxlength']" class="text-danger"> *Password must be at most 20
+                        characters</small>
+                    </div>
+
+                  </div>
+                  <div class="col-sm-6">
+
+                    <label class="col-form-label" for="confirmPassword">Confirm Password</label>
+                    <input class="form-control" type="password" name="confirmPassword"
+                      [(ngModel)]="addForm.confirmPassword" required minlength="6" maxlength="20"
+                      #confirmPassword="ngModel">
+                    <div *ngIf="f.submitted && confirmPassword.invalid">
+                      <small *ngIf="confirmPassword.errors?.['required']" class="text-danger"> *ConfirmPassword is
+                        required</small>
+                      <small *ngIf="confirmPassword.errors?.['minlength']" class="text-danger"> *ConfirmPassword must be
+                        at least 6 characters</small>
+                      <small *ngIf="confirmPassword.errors?.['maxlength']" class="text-danger"> *ConfirmPassword must be
+                        at most 20 characters</small>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <label class="col-form-label" for="dateOfJoin">Joining Date
+                      <span class="text-danger">*</span>
+                    </label>
+                    <div >
+                      <input class="form-control" type="date" name="dateOfJoin" [(ngModel)]="addForm.dateOfJoin"
+                        required #dateOfJoin="ngModel">
+                      <div *ngIf="f.submitted && dateOfJoin.invalid">
+                        <small *ngIf="dateOfJoin.errors?.['required']" class="text-danger"> *Joining date is
+                          required</small>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <label class="col-form-label" for="phone">Phone</label>
+                    <input class="form-control" type="number" name="phone" [(ngModel)]="addForm.phone" required
+                      #phone="ngModel">
+                    <div *ngIf="f.submitted && phone.invalid">
+                      <small *ngIf="phone.errors?.['required']" class="text-danger"> *Phone is required</small>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="role">Role <span class="text-danger">*</span></label>
+                    <select class="form-select form-control" name="role" [(ngModel)]="addForm.role" required
+                      #role="ngModel">
+                      <option [ngValue]="" [disabled]="true">Select role</option>
+                      <option *ngFor="let item of RolesList" [value]="item.id">
+                        {{item.role}}
+                      </option>
+                    </select>
+                    <div *ngIf="f.submitted && role.invalid">
+                      <small *ngIf="role.errors?.['required']" class="text-danger"> *Role Name required</small>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="department">Department <span class="text-danger">*</span></label>
+                    <select class="form-select form-control" name="department" [(ngModel)]="addForm.department" required
+                      #department="ngModel">
+                      <option [ngValue]="null" [disabled]="true">Select department</option>
+                      <option *ngFor="let item of DepartmentList" [value]="item">
+                        {{item}}
+                      </option>
+                    </select>
+                    <div *ngIf="f.submitted && department.invalid">
+                      <small *ngIf="department.errors?.['required']" class="text-danger"> *Department is
+                        required</small>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="designation">Designation <span class="text-danger">*</span></label>
+                    <select class="form-select form-control" name="designation" [(ngModel)]="addForm.designation"
+                      required #designation="ngModel">
+                      <option [ngValue]="null" [disabled]="true">Select designation</option>
+                      <option *ngFor="let item of DesignationList" [value]="item">
+                        {{item}}
+                      </option>
+                    </select>
+                    <div *ngIf="f.submitted && designation.invalid">
+                      <small *ngIf="designation.errors?.['required']" class="text-danger"> *Designation is
+                        required</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="submit-section">
+                  <button class="btn btn-primary submit-btn" type="submit">Submit</button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div id="edit_employee" class="modal custom-modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Employee</h5>
+              <button type="button" class="close" #closeButton data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form  name="editForm" (ngSubmit)="editUser()" #f="ngForm">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="col-form-label" for="firstName">First Name <span
+                          class="text-danger">*</span></label>
+                      <input class="form-control" type="text" name="firstName" [(ngModel)]="editForm.firstName" required
+                        minlength="3" maxlength="20" #firstName="ngModel">
+                      <div *ngIf="f.submitted && firstName.invalid">
+                        <small *ngIf="firstName.errors?.['required']" class="text-danger"> *Firstname is
+                          required</small>
+                        <small *ngIf="firstName.errors?.['minlength']" class="text-danger"> *Firstname must be at least
+                          3 characters</small>
+                        <small *ngIf="firstName.errors?.['maxlength']" class="text-danger"> *Firstname must be at most
+                          20 characters</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="col-form-label" for="lastName">Last Name</label>
+                      <input class="form-control" type="text" name="lastName" [(ngModel)]="editForm.lastName" required
+                        minlength="3" maxlength="20" #lastName="ngModel">
+                      <div *ngIf="f.submitted && lastName.invalid">
+                        <small *ngIf="lastName.errors?.['required']" class="text-danger"> *Lastname is required</small>
+                        <small *ngIf="lastName.errors?.['minlength']" class="text-danger"> *Lastname must be at least 3
+                          characters</small>
+                        <small *ngIf="lastName.errors?.['maxlength']" class="text-danger"> *Lastname must be at most 20
+                          characters</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="col-form-label" for="username">Username <span class="text-danger">*</span></label>
+                      <input class="form-control" type="text" class="form-control" name="username"
+                        [(ngModel)]="editForm.username" required minlength="3" maxlength="20" #username="ngModel">
+                      <div *ngIf="f.submitted && username.invalid">
+                        <small *ngIf="username.errors?.['required']" class="text-danger"> *Username is required</small>
+                        <small *ngIf="username.errors?.['minlength']" class="text-danger"> *Username must be at least 3
+                          characters</small>
+                        <small *ngIf="username.errors?.['maxlength']" class="text-danger"> *Username must be at most 20
+                          characters</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="col-form-label" for="email">Email <span class="text-danger">*</span></label>
+                      <input class="form-control" type="email" name="email" [(ngModel)]="editForm.email" required
+                        minlength="3" maxlength="50" #email="ngModel">
+                      <div *ngIf="f.submitted && email.invalid">
+                        <small *ngIf="email.errors?.['required']" class="text-danger"> *Email is required</small>
+                        <small *ngIf="email.errors?.['minlength']" class="text-danger"> *Email must be at least 3
+                          characters</small>
+                        <small *ngIf="email.errors?.['maxlength']" class="text-danger"> *Email must be at most 50
+                          characters</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="col-form-label" for="password">Password</label>
+                      <input class="form-control" type="password" name="password" [(ngModel)]="editForm.password"
+                        required minlength="6" maxlength="20" #password="ngModel">
+                      <div *ngIf="f.submitted && password.invalid">
+                        <small *ngIf="password.errors?.['required']" class="text-danger"> *Password is required</small>
+                        <small *ngIf="password.errors?.['minlength']" class="text-danger"> *Password must be at least 6
+                          characters</small>
+                        <small *ngIf="password.errors?.['maxlength']" class="text-danger"> *Password must be at most 20
+                          characters</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="col-form-label" for="confirmPassword">Confirm Password</label>
+                      <input class="form-control" type="password" name="confirmPassword" [(ngModel)]="editForm.confirmPassword" required
+                        minlength="6" maxlength="20" #confirmPassword="ngModel">
+                      <div *ngIf="f.submitted && confirmPassword.invalid">
+                        <small *ngIf="confirmPassword.errors?.['required']" class="text-danger"> *ConfirmPassword is
+                          required</small>
+                        <small *ngIf="confirmPassword.errors?.['minlength']" class="text-danger"> *ConfirmPassword must
+                          be at least 6 characters</small>
+                        <small *ngIf="confirmPassword.errors?.['maxlength']" class="text-danger"> *ConfirmPassword must
+                          be at most 20 characters</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="col-form-label" for="dateOfJoin">Joining Date <span
+                          class="text-danger">*</span></label>
+                      <div class="cal-icon">
+                        <input class="form-control datetimepicker" type="text" bsDatepicker type="text"
+                          name="dateOfJoin" [(ngModel)]="editForm.dateOfJoin" required #dateOfJoin="ngModel">
+                        <div *ngIf="f.submitted && dateOfJoin.invalid">
+                          <small *ngIf="dateOfJoin.errors?.['required']" class="text-danger"> *Joining date is
+                            required</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="col-form-label" for="phone">Phone</label>
+                      <input class="form-control" type="text" name="phone" [(ngModel)]="editForm.phone" required
+                        #phone="ngModel">
+                      <div *ngIf="f.submitted && phone.invalid">
+                        <small *ngIf="phone.errors?.['required']" class="text-danger"> *Phone is required</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="submit-section">
+                  <button class="btn btn-primary submit-btn" type="submit">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /Edit Employee Modal -->
+
+      <!-- Edit Employee Modal -->
+
+      <!-- Delete Employee Modal -->
+      <div class="modal custom-modal fade" id="delete_employee" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-body">
+              <div class="form-header">
+                <h3>Delete Employee</h3>
+                <p>Are you sure want to delete?</p>
+              </div>
+              <div class="modal-btn delete-action">
+                <div class="row">
+                  <div class="col-6">
+                    <button class="btn btn-primary continue-btn" (click)="removeUser()">Delete</button>
+                  </div>
+                  <div class="col-6">
+                    <a data-bs-dismiss="modal" #closeButtonDelete class="btn btn-primary cancel-btn">Cancel</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="profile-widget">
+        <div class="profile-img">
+          <a [routerLink]="'/employees/employee-profile'" class="avatar"><img
+              src="assets/img/profiles/avatar-{{i+ 1}}.jpg" alt=""></a>
+        </div>
+        <div class="dropdown profile-action">
+          <a class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i
+              class="material-icons">more_vert</i></a>
+          <div class="dropdown-menu dropdown-menu-right">
+            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#view" (click)="view(emp)">
+              <i class="fa-solid fa-eye"></i> View
+            </button>
+            <button  class="dropdown-item" data-bs-toggle="modal" data-bs-target="#edit_employee"
+              (click)="transferEmployeeId(emp)">
+              <i class="fa-solid fa-pencil m-r-5"></i> Edit
+            </button>
+            <button  class="dropdown-item" data-bs-toggle="modal" data-bs-target="#delete_employee"
+              (click)="transferEmployeeId(emp)"><i class="fa-regular fa-trash-can m-r-5"></i> Delete</button>
+          </div>
+        </div>
+        <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a
+            [routerLink]="'/employees/employee-profile'">{{emp.firstName}} {{emp.lastName}}</a>
+        </h4>
+        <div class="small text-muted">{{emp.designation}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="view" class="modal custom-modal fade" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">View Employee</h5>
+        <button type="button" class="close" #closeButton data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card mb-0">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="profile-view">
+                  <div class="profile-img-wrap">
+                    <div class="profile-img">
+                      <a><img alt="" src="assets/img/profiles/avatar-2.jpg"></a>
+                    </div>
+                  </div>
+                  <div class="profile-basic">
+                    <div class="row">
+                      <div class="col-md-5">
+                        <div class="profile-info-left">
+                          <h3 class="user-name m-t-0 mb-0">{{user?.firstName ?? '_____'}} {{user?.lastName ?? '_____'}}</h3>
+                          <h6 class="text-muted">{{user?.department ?? '_____'}} Team</h6>
+                          <small class="text-muted">{{user?.designation ?? '_____'}}</small>
+                          <div class="small doj text-muted">Date of Join : {{user?.dateOfJoin ?? '_____'}}</div>
+                          <div class="staff-msg"><a class="btn btn-custom" [routerLink]="'/apps/chats'">Send
+                              Message</a></div>
+                        </div>
+                      </div>
+                      <div class="col-md-7">
+                        <ul class="personal-info">
+                          <li>
+                            <div class="title">Phone:</div>
+                            <div class="text"><a href="">{{user?.phone ?? '_____'}}</a></div>
+                          </li>
+                          <li>
+                            <div class="title">Email:</div>
+                            <div class="text"><a href="">{{user?.email ?? '_____'}}</a></div>
+                          </li>
+                          <li>
+                            <div class="title">Birthday:</div>
+                            <div class="text">{{user?.birthDay ?? '_____'}}</div>
+                          </li>
+                          <li *ngIf="user?.address">
+                            <div class="title">Address:</div>
+                            <div class="text">{{user?.address ?? '_____'}} </div>
+                          </li>
+                          <li>
+                            <div class="title">Reports to:</div>
+                            <div class="text">
+                              <div class="avatar-box">
+                                <div class="avatar avatar-xs">
+                                  <img src="assets/img/profiles/avatar-16.jpg" alt="">
+                                </div>
+                              </div>
+                              <a [routerLink]="'/employees/employee-profile'">
+                                Jeffery Lalor
+                              </a>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

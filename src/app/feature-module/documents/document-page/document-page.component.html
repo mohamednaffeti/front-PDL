@@ -1,0 +1,237 @@
+<div id="add_request" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Document request</h5>
+                <button type="button" class="close" #closeButton data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="col-form-label">Title <span class="text-danger">*</span></label>
+                            <input class="form-control" [(ngModel)]="doc.title" name="title" type="text">
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="selectOption">Select an type:</label>
+                                <select [(ngModel)]="doc.documentType" name="title" class="form-control" id="selectOption">
+                                  <option *ngFor="let option of types" [value]="option">{{ option }}</option>
+                                </select>
+                              </div>
+                        </div>
+                    </div>
+
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn" (click)="addSalary()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="file" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Download file</h5>
+                <button type="button" class="close" #closeButtonFile data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row gutters">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="card">
+                                    <div class="card-body p-0">
+                                        <div class="invoice-container" #contentToConvert>
+                                            <div class="invoice-header">
+                                                <!-- Row start -->
+                                                
+                                                <!-- Row end -->
+                                                <!-- Row start -->
+                                                <div class="row gutters">
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                                        <a  class="invoice-logo">
+                                                            {{dataDoc?.documentType}}
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <address class="text-right">
+                                                            
+
+
+                                                            {{dataDoc?.user.firstName}} {{dataDoc?.user.lastName}} {{dataDoc?.user.dateOfJoin}}.<br>
+                                                            {{dataDoc?.user.department}} {{dataDoc?.user.designation}} .<br>
+                                                            {{dataDoc?.user.email}}
+                                                        </address>
+                                                    </div>
+                                                </div>
+                                                <!-- Row end -->
+                                                <!-- Row start -->
+                                                <div class="row gutters">
+                                                    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+                                                        <div class="invoice-details">
+                                                            <address>
+                                                                Alex Maxwell<br>
+                                                                150-600 Church Street, Florida, USA
+                                                            </address>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+                                                        <div class="invoice-details">
+                                                            <div class="invoice-num">
+                                                                <div>Invoice - #009</div>
+                                                                <div>January 10th 2020</div>
+                                                            </div>
+                                                        </div>													
+                                                    </div>
+                                                </div>
+                                                <!-- Row end -->
+                                            </div>
+                                            <div class="invoice-body">
+                                                <!-- Row start -->
+                                                <div class="row gutters">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <div class="table-responsive">
+                                                            <table class="table custom-table m-0">
+                                                                <thead class="headhead">
+                                                                    <tr>
+                                                                        
+                                                                        <th class="bodybody">Product ID</th>
+                                                                        <th class="bodybody">Quantity</th>
+                                                                        <th class="bodybody">Sub Total</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                       
+                                                                        <td>#50000981</td>
+                                                                        <td>9</td>
+                                                                        <td>$5000.00</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        
+                                                                        <td>#50000126</td>
+                                                                        <td>5</td>
+                                                                        <td>$100.00</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                      
+                                                                        <td>#50000821</td>
+                                                                        <td>6</td>
+                                                                        <td>$49.99</td>
+                                                                    </tr>
+                                                                  
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Row end -->
+                                            </div>
+                                            <div class="invoice-footer">
+                                                Thank you for your Business.
+                                            </div>
+                                        </div>
+                                        <div class="row gutters">
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                                <div class="custom-actions-btns mb-5">
+                                                    <a (click)="generatePdf()" class="btn btn-primary">
+                                                        <i class="icon-download"></i> Download
+                                                    </a>
+                                                   
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Delete Client Modal -->
+
+<!-- Page Content -->
+<div class="content container-fluid">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">My request</h3>
+
+
+            </div>
+            <div class="col-auto float-end ms-auto">
+                <a class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_request"><i
+                        class="fa-solid fa-plus"></i>
+                    Add Request</a>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Header -->
+
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="table-responsive">
+                <table matSort class="table table-striped custom-table datatable">
+                    <thead>
+                        <tr>
+                            <th mat-sort-header="date">Employee</th>
+                            <th mat-sort-header="title">Title</th>
+                            <th mat-sort-header="value">Type</th>
+                           
+                            <th mat-sort-header="description">Status</th>
+                            <th mat-sort-header="action">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let d of allDocument">
+                            <td>
+                                {{d.user.firstName}} {{d.user.lastName}}
+                            </td>
+                            <td>
+                                {{d.title}}
+                            </td>
+                            <td>
+                                {{d.documentType}}
+                            </td>
+                            <td>
+                                {{d.status }}
+                                
+                            </td>
+                          
+                       
+                            <td (click)="deleteResquet(d)">
+                                <a *ngIf="d.status == 'IN_PROGRESS'" style="color: rgb(254, 3, 3);"><i class="fa-regular fa-trash-can m-r-5" ></i>
+                                    Delete</a>
+                                    <a *ngIf="d.status == 'ACCEPT'" data-bs-toggle="modal" (click)="downFile(d)" data-bs-target="#file" style="color: rgb(4, 117, 23);"><i class="fa-regular fa-file m-r-5" ></i>
+                                        Download</a>
+
+                            </td>
+                        </tr>
+                        <tr *ngIf="allDocument.length == 0">
+                            <td colspan="10">
+                                <h5 style="text-align: center;">No data found</h5>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- /Page Content -->

@@ -1,0 +1,72 @@
+
+
+
+<!-- Delete Client Modal -->
+
+<!-- Page Content -->
+<div class="content container-fluid">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Document request</h3>
+
+
+            </div>
+          
+        </div>
+    </div>
+    <!-- /Page Header -->
+
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="table-responsive">
+                <table matSort class="table table-striped custom-table datatable">
+                    <thead>
+                        <tr>
+                            <th mat-sort-header="date">Employee</th>
+                            <th mat-sort-header="title">Title</th>
+                            <th mat-sort-header="value">Type</th>
+                           
+                            <th mat-sort-header="description">Status</th>
+                            <th mat-sort-header="action">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let d of allDocument">
+                            <td>
+                                {{d.user.firstName}} {{d.user.lastName}}
+                            </td>
+                            <td>
+                                {{d.title}}
+                            </td>
+                            <td>
+                                {{d.documentType}}
+                            </td>
+                            <td>
+                                {{d.status}}
+                            </td>
+                          
+                       
+                            <td >
+                                <a style="color: rgb(4, 113, 4);" (click)="Accept( d,'ACCEPT' , d.user.id)"><i class="fa-solid  fa-check m-r-5"></i>Accept
+                                </a>
+                                <a style="color: rgb(239, 7, 7); margin-left: 15px;" (click)="Accept(d,'REFUSE' ,  d.user.id)" ><i class="fa-solid fa-close m-r-5"></i>No
+                                    </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="10" *ngIf="allDocument.length == 0">
+                                <h5 style="text-align: center;">No data found</h5>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- /Page Content -->

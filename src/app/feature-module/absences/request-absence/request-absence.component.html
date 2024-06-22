@@ -1,0 +1,81 @@
+
+
+
+
+<div class="content container-fluid">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Absence request</h3>
+
+             
+            </div>
+        
+        </div>
+    </div>
+    <!-- /Page Header -->
+
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="table-responsive">
+                <table matSort class="table table-striped custom-table datatable">
+                    <thead>
+                        <tr>
+                            <th mat-sort-header="name">Name</th>
+                            <th mat-sort-header="value">Cause</th>
+                            <th mat-sort-header="status">Status</th>
+                            <th mat-sort-header="dateFrom">Date from</th>
+                            <th mat-sort-header="dateTo">Date To</th>
+             
+                            <th  mat-sort-header="action">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of absence">
+
+                            <td>
+                                {{item.user.firstName}} {{item.user.lastName}}
+                            </td>
+                            <td>
+                                {{item.leaveType}} 
+                            </td>
+                            <td>
+                                {{item.status}} 
+                            </td>
+                            <td>
+                                {{item.dateFrom  | date:'dd/MM/yyyy '}}
+                            </td>
+                            <td>
+                                {{item.dateTo  | date:'dd/MM/yyyy '}}
+                            </td>
+                         
+                         
+                            <td *ngIf="me?.roles[0].id != 3">
+                                <a style="color: rgb(4, 113, 4);" (click)="Accept( item,'ACCEPT' , item.user)"><i class="fa-solid  fa-check m-r-5"></i>Accept
+                                </a>
+                                <a style="color: rgb(239, 7, 7); margin-left: 15px;" (click)="Accept(item,'REFUSE', item.user)" ><i class="fa-solid fa-close m-r-5"></i>No
+                                    </a>
+                            </td>
+
+                            
+                            <td >
+                                <a (click)="deleteReq(item)"  *ngIf="me?.roles[0].id == 3 && item.status == 'IN_PROGRESS'" style="color: rgb(254, 3, 3);"><i class="fa-regular fa-trash-can m-r-5" ></i>
+                                    Delete</a>
+                            </td>
+                        </tr>
+                        <tr *ngIf="absence && absence.length == 0">
+                            <td colspan="10">
+                                <h5 style="text-align: center;">No data found</h5>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,157 @@
+<div class="content container-fluid">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="row align-items-center">
+      <div class="col">
+        <h3 class="page-title">Salaries</h3>
+
+
+      </div>
+
+    </div>
+  </div>
+  <!-- /Page Header -->
+
+
+  <div class="row">
+    <div class="col-auto float-end ms-auto">
+      <a class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_salaire"><i class="fa-solid fa-plus"></i>
+        Add Salary</a>
+    </div>
+    <div class="col-md-12" style="margin-top: 10px;">
+
+      <div class="table-responsive">
+        <table matSort class="table table-striped custom-table datatable">
+          <thead>
+            <tr>
+              <th mat-sort-header="name">Name</th>
+              <th mat-sort-header="value">Value</th>
+              <th mat-sort-header="date">De</th>
+              <th mat-sort-header="description">à</th>
+
+              <th mat-sort-header="action">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of salarie">
+
+              <td>
+                {{item.user.firstName}} {{item.user.lastName}}
+              </td>
+              <td>
+                {{item.value}} TND
+              </td>
+              <td>
+                {{item.dateFrom | date:'dd/MM/yyyy '}}
+              </td>
+              <td>
+                {{item.dateTo | date:'dd/MM/yyyy '}}
+              </td>
+
+              <td>
+                <div >
+                  <a (click)="editSalaire(item)"  data-bs-toggle="modal" data-bs-target="#edit_salaire"><i
+                      class="fa-solid fa-pencil m-r-5"></i> Edit</a>
+                  <a style="margin-left: 10px;" (click)="deleteSalaire(item.id)"><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="salarie && salarie.length == 0">
+              <td colspan="10">
+                <h5 style="text-align: center;">No data found</h5>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="add_salaire" class="modal custom-modal fade" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Salaire</h5>
+        <button type="button" class="close" #closeButton data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form name="addForm" (ngSubmit)="f.form.valid && addSlaire()" #f="ngForm">
+          <div class="row">
+            <div class="col-sm-6">
+              <label class="col-form-label" for="firstName">Salaire en TND <span class="text-danger">*</span></label>
+              <input class="form-control" type="number" id="firstName" name="value" [(ngModel)]="addForm.value">
+
+            </div>
+            <div class="col-sm-6">
+              <label>Employees</label> <br>
+              <mat-form-field appearance="fill">
+                <mat-label>Select Employees</mat-label>
+                <mat-select [(ngModel)]="employeeId" name="user">
+                  <mat-option *ngFor="let user of employees" [value]="user">
+                    {{ user.firstName }} {{ user.lastName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <label class="col-form-label" for="">De<span class="text-danger">*</span></label>
+              <input class="form-control" type="date" id="" name="dateFrom" [(ngModel)]="addForm.dateFrom">
+
+            </div>
+            <div class="col-sm-6">
+              <label class="col-form-label" for="dateTo">à <span class="text-danger">*</span></label>
+              <input class="form-control" type="date" id="dateTo" name="dateTo" [(ngModel)]="addForm.dateTo">
+
+            </div>
+
+
+
+          </div>
+          <div class="submit-section">
+            <button class="btn btn-primary submit-btn" type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div id="edit_salaire" class="modal custom-modal fade" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Salaire</h5>
+        <button type="button" class="close" #closeButtonEdit data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form name="addForm" (ngSubmit)="f.form.valid && putSalaire()" #f="ngForm">
+          <div class="row">
+            <div class="col-sm-12">
+              <label class="col-form-label" for="firstName">Salaire en TND <span class="text-danger">*</span></label>
+              <input class="form-control" type="number" id="firstName" name="value" [(ngModel)]="addForm.value">
+
+            </div>
+           
+           
+        
+
+
+
+          </div>
+          <div class="submit-section">
+            <button class="btn btn-primary submit-btn" type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

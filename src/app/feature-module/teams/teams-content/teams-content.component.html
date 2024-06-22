@@ -1,0 +1,264 @@
+<div id="create_team" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Team</h5>
+                <button type="button" class="close" #closeModel data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="addTeamForm" (ngSubmit)="addTeam()">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Team Name</label>
+                                <input class="form-control" type="text"
+                                    [class.invalid]="addTeamForm.get('name').invalid && addTeamForm.get('name').touched"
+                                    formControlName="name">
+                                <div *ngIf="addTeamForm.get('name').invalid && addTeamForm.get('name').touched">
+                                    <small *ngIf="addTeamForm.get('name').invalid && addTeamForm.get('name').touched"
+                                        class="text-danger"> *Name is required</small>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-sm-12">
+                            <div class="form-group" style="width: 100%;">
+                                <label>Employees</label> <br>
+                                <mat-form-field appearance="fill" style="width: 100%;">
+                                    <mat-label>Select Employees</mat-label>
+                                    <mat-select formControlName="users" multiple>
+                                        <mat-option *ngFor="let user of employees" [value]="user">
+                                            {{ user.firstName }} {{ user.lastName }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div> -->
+
+
+                    </div>
+
+
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Create Project Modal -->
+<div id="add_employee_team" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="margin-bottom: 10px;">Add Employee To My Team</h5>
+                <button type="button" class="close" #affectModel data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+
+
+                        <div class="col-sm-12">
+
+                            <label>Employees</label> <br>
+                            <mat-form-field appearance="fill" style="width: 100%;">
+                                <mat-label>Select Employees</mat-label>
+                                <mat-select [(ngModel)]="addEmployee" name="addEmployee">
+                                    <mat-option *ngFor="let user of employees" [value]="user">
+                                        {{ user.firstName }} {{ user.lastName }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </div>
+
+
+
+                    </div>
+                    <div class="submit-section">
+                        <button (click)="addEmployeeTeam()" class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Edit Project Modal -->
+<div id="edit_team" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Team</h5>
+                <button type="button" class="close" #closeModeledit data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="editTeamForm" (ngSubmit)="editTeam()">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Team Name</label>
+                                <input class="form-control" type="text"
+                                    [class.invalid]="editTeamForm.get('name').invalid && editTeamForm.get('name').touched"
+                                    formControlName="name">
+                                <div *ngIf="editTeamForm.get('name').invalid && editTeamForm.get('name').touched">
+                                    <small *ngIf="editTeamForm.get('name').invalid && editTeamForm.get('name').touched"
+                                        class="text-danger"> *Name is required</small>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Edit Project Modal -->
+<div id="view_team" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{nameTeam?.name}}</h5>
+                <button type="button" class="close" #closeModelView data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="table-responsive">
+                    <div>
+                        <a style="margin-bottom: 15px;" class="btn add-btn" data-bs-toggle="modal"
+                            data-bs-target="#add_employee_team"><i class="fa-solid fa-plus"></i>
+                            Add employee to the team</a>
+                    </div>
+                    <table matSort class="table table-striped custom-table datatable">
+                        <thead>
+                            <tr>
+                                <th mat-sort-header="firstname"></th>
+                                <th mat-sort-header="employeeId">Name</th>
+                                <th mat-sort-header="email">Email</th>
+                                <th mat-sort-header="mobile">Mobile</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of usersList;let i = index">
+                                <td>
+                                    <h2 class="table-avatar">
+                                        <a [routerLink]="'/employees/employee-profile'" class="avatar"><img alt=""
+                                                src="assets/img/profiles/avatar-{{i+ 1}}.jpg"></a>
+                                        <a [routerLink]="'/employees/employee-profile'">{{row.firstname}}
+                                            <span>{{row.designation}} </span></a>
+                                    </h2>
+                                </td>
+                                <td>{{row.firstName}} {{row.lastName}}</td>
+                                <td>{{row.email}}</td>
+                                <td>{{row.phone ?? '__'}}</td>
+                                <td> <a *ngIf="this.me.roles[0].id == 2 && this.me.id !== row.id"
+                                        (click)="deleteEmployeTeam(row.id)" class="dropdown-item"><i
+                                            class="fa-regular fa-trash-can m-r-5"></i></a>
+                                </td>
+
+
+                            </tr>
+                            <tr *ngIf="usersList.length === 0">
+                                <td colspan="10">
+                                    <h5 style="text-align: center;">No data found</h5>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="content container-fluid">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Teams</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a>Dashboard</a></li>
+                    <li class="breadcrumb-item active">Teams</li>
+                </ul>
+            </div>
+            <div class="col-auto float-end ms-auto" *ngIf="role !== 'EMPLOYEE'">
+                <button [disabled]="me?.team" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#create_team"><i
+                        class="fa-solid fa-plus"></i>
+                    Create Team</button>
+
+            </div>
+        </div>
+    </div>
+    <!-- /Page Header -->
+
+    <!-- Search Filter -->
+    <div class="row filter-row">
+        <div class="col-sm-6 col-md-3">
+            <div class="form-group form-focus inputs">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Team Name</mat-label>
+                    <input type="text" (keyup)="filterName($event)" matInput>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <a class="btn btn-success w-100"> RESET </a>
+        </div>
+    </div>
+    <!-- Search Filter -->
+
+    <div class="row">
+        <div *ngFor="let team of teams" class="col-lg-6 col-sm-6 col-md-6 col-xl-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="dropdown dropdown-action profile-action">
+                        <a class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i
+                                class="material-icons material-color">more_vert</i></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" (click)="showTeam(team)" data-bs-target="#view_team"
+                                data-bs-toggle="modal"><i class="fa-solid fa-eye m-r-5"></i> Show</a>
+                            <a class="dropdown-item" data-bs-toggle="modal" (click)="openEdit(team)"
+                                data-bs-target="#edit_team"><i class="fa-solid fa-pencil m-r-5"></i> Edit</a>
+                            <a class="dropdown-item"><i class="fa-regular fa-trash-can m-r-5"
+                                    (click)="deleteTeam(team.id)"></i> Delete</a>
+                        </div>
+                    </div>
+                    <h4 class="project-title"><a>{{team.name}}</a>
+                    </h4>
+                    <p class="text-muted"> Project : {{team.project?.name ?? 'No project'}}
+                    </p>
+                    <div class="pro-deadline m-b-15">
+                        <div class="sub-title">
+                            <span style="color: darkslategray; font-weight: bolder;">{{team.nombre?.length}}</span>
+                            members
+                        </div>
+                        <div class="text-muted">
+                            Manager : {{team.manager?.firstName }} {{team.manager?.lastName }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
